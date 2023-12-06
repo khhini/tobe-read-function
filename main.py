@@ -140,7 +140,7 @@ def post_notion_page(request_body):
     logger.info("Success adding page to database", input=request_body["properties"]["Link"]['url'], result=response.json(), status="succes")
   else:
     logger.error("Failed adding page to database", input=request_body["properties"]["Link"]['url'], result=response.json(), error=response.text)
-    
+    raise
 
 
     
