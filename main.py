@@ -13,10 +13,18 @@ try:
 except Exception:
   pass
 
+def custom_processor(logger, method_name, event_dict):
+    # Rename 'level' to 'severity'
+    event_dict['severity'] = event_dict.pop('level', None)
+    # Rename 'event' to 'message'
+    event_dict['message'] = event_dict.pop('event', None)
+    return event_dict
+
 #Setup Logger
 structlog.configure(
   processors=[
     structlog.stdlib.add_log_level,
+    custom_processor,
     structlog.stdlib.PositionalArgumentsFormatter(),
     structlog.processors.TimeStamper(fmt="iso"),
     structlog.processors.StackInfoRenderer(),
@@ -131,7 +139,7 @@ def post_notion_page(request_body):
   if response.status_code == 200:
     logger.info("Success adding page to database", input=request_body["properties"]["Link"]['url'], result=response.json(), status="succes")
   else:
-    logger.error("Success adding page to database", input=request_body["properties"]["Link"]['url'], result=response.json(), error=response.text)
+    logger.error("Failed adding page to database", input=request_body["properties"]["Link"]['url'], result=response.json(), error=response.text)
     
 
 
