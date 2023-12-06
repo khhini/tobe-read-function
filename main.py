@@ -35,9 +35,9 @@ logger = structlog.get_logger()
 NOTION_DATABASE_ID = os.getenv("NOTION_DATABASE_ID")
 NOTION_API_KEY = os.getenv("NOTION_API_KEY")
 
-@functions_framework.cloud_event
-def cloudevent_function(cloud_event):
-  data = json.loads(base64.b64decode(cloud_event.data["message"]["data"]).decode())
+# @functions_framework.cloud_event
+def cloudevent_function(event_data, context):
+  data = json.loads(base64.b64decode(event_data["data"]).decode())
   
   article_data = extract_article_data(data["article_url"])
   request_body = generate_request_body(article_data)
