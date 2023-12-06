@@ -1,0 +1,4 @@
+functions-framework==3.*
+newspaper3k==0.2.8
+structlog==23.2.0
+python-dotenv==1.0.0
